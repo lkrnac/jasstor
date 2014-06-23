@@ -1,4 +1,9 @@
-# jasstor [![Build Status](https://secure.travis-ci.org/lkrnac/jasstor.png?branch=master)](http://travis-ci.org/lkrnac/jasstor)
+# jasstor 
+
+[![Build Status](https://drone.io/github.com/lkrnac/jasstor/status.png)](https://drone.io/github.com/lkrnac/jasstor/latest)
+[![Coverage Status](https://coveralls.io/repos/lkrnac/jasstor/badge.png?branch=master)](https://coveralls.io/r/lkrnac/jasstor?branch=master)
+[![Dependency Status](https://david-dm.org/lkrnac/jasstor.svg?theme=shields.io)](https://david-dm.org/lkrnac/jasstor)
+[![devDependency Status](https://david-dm.org/lkrnac/jasstor/dev-status.svg?theme=shields.io)](https://david-dm.org/lkrnac/jasstor#info=devDependencies)
 
 JSON credentials storage and authentication
 
