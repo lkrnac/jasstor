@@ -29,9 +29,8 @@
     "jshint-stylish": "^0.2.0"
   },
   "scripts": {
-    "test": "gulp test",
-    "build": "gulp build",
-    "coverage": "gulp coverage"
+    "test": "gulp coverage",
+    "build": "gulp build"
   },
   "dependencies": {
     "bcrypt": "^0.7.8"
