@@ -1,0 +1,38 @@
+{
+  "name": "jasstor",
+  "version": "0.0.0",
+  "main": "lib/jasstor.js",
+  "description": "JSON credentials storage and authentication",
+  "homepage": "https://github.com/lkrnac/jasstor",
+  "bugs": "https://github.com/lkrnac/jasstor/issues",
+  "author": {
+    "name": "Lubos Krnac",
+    "email": "lubos.krnac@gmail.com",
+    "url": "lkrnac.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lkrnac/jasstor"
+  },
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "gulp": "^3.8.1",
+    "gulp-coveralls": "^0.1.2",
+    "gulp-istanbul": "^0.2.0",
+    "gulp-mocha": "^0.4.1",
+    "gulp-traceur": "^0.7.0",
+    "jshint-stylish": "^0.2.0"
+  },
+  "scripts": {
+    "test": "gulp test",
+    "build": "gulp build"
+  },
+  "dependencies": {
+    "bcrypt": "^0.7.8"
+  }
+}
