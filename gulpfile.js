@@ -5,10 +5,17 @@ var traceur = require('gulp-traceur');
 var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
 var coveralls = require('gulp-coveralls');
+var jshint = require('gulp-jshint');
+
+var paths = {
+  scripts: 'lib/jasstor.js',
+  tests: 'test/jasstorSpec.js',
+  dist: 'dist/jasstor.js'
+};
 
 //Compiles ES6 into ES5
 gulp.task('build', function () {
-  return gulp.src('lib/jasstor.js')
+  return gulp.src(paths.scripts)
     .pipe(traceur({
       sourceMap: true
     }))
@@ -17,7 +24,7 @@ gulp.task('build', function () {
 
 //Runs mocha test against compiled ES5 source code
 gulp.task('test', ['build'], function () {
-  return gulp.src('test/jasstorSpec.js')
+  return gulp.src(paths.tests)
     .pipe(mocha({
       reporter: 'spec'
     }));
@@ -25,15 +32,20 @@ gulp.task('test', ['build'], function () {
 
 //Runs mocha test ands submits coverage to coveralls.io
 gulp.task('coverage', ['build'], function (cb) {
-  gulp.src(['dist/jasstor.js'])
-    .pipe(istanbul()) // Covering files
-  .on('finish', function () {
-    gulp.src(['test/jasstorSpec.js'])
-      .pipe(mocha())
-    // Creating the reports after tests runned
-    .pipe(istanbul.writeReports())
-      .on('end', cb);
-  });
+  gulp.src([paths.dist])
+    .pipe(jshint())
+    .pipe(istanbul())
+    .on('finish', function () {
+      gulp.src([paths.tests])
+        .pipe(jshint())
+        .pipe(mocha())
+        .pipe(istanbul.writeReports())
+        .on('end', cb);
+    });
   gulp.src('coverage/lcov.info')
     .pipe(coveralls());
+});
+
+gulp.task('watch', function () {
+  gulp.watch([paths.scripts, paths.tests], ['test']);
 });

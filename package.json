@@ -24,8 +24,10 @@
     "gulp": "^3.8.1",
     "gulp-coveralls": "^0.1.2",
     "gulp-istanbul": "^0.2.0",
+    "gulp-jshint": "^1.6.3",
     "gulp-mocha": "^0.4.1",
     "gulp-traceur": "^0.7.0",
+    "gulp-watch": "^0.6.8",
     "jshint-stylish": "^0.2.0"
   },
   "scripts": {
