@@ -30,7 +30,8 @@
   },
   "scripts": {
     "test": "gulp test",
-    "build": "gulp build"
+    "build": "gulp build",
+    "coverage": "gulp coverage"
   },
   "dependencies": {
     "bcrypt": "^0.7.8"

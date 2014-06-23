@@ -4,6 +4,9 @@ var gulp = require('gulp');
 var traceur = require('gulp-traceur');
 var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
+var coveralls = require('gulp-coveralls');
+
+
 
 gulp.task('build', function () {
   return gulp.src('lib/jasstor.js')
@@ -26,4 +29,6 @@ gulp.task('coverage', ['build'], function (cb) {
         .pipe(istanbul.writeReports())
         .on('end', cb);
     });
+  gulp.src('coverage/lcov.info')
+    .pipe(coveralls());
 });
