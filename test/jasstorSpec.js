@@ -14,16 +14,14 @@ var checkError = (err, done) => {
   }
 };
 
-var callTestingMethod = (done) => {
-  var jasstor = new Jasstor(credentialsFile);
-  jasstor.saveCredentials('user', 'password', () => done());
-};
-
 describe('jasstor', () => {
   describe('when creadentials file doesn\'t exist', () => {
+    var jasstor = new Jasstor(credentialsFile);
     beforeEach((done) => {
       //ignore error when testing file didn't exist before deletion
-      fs.unlink(credentialsFile, (err) => callTestingMethod(done));
+      fs.unlink(credentialsFile, (err) => {
+        jasstor.saveCredentials('user', 'password', (err) => done(err));
+      });
     });
     it('should store the password', (done) => {
       fs.readFile(credentialsFile, (err, data) => {
@@ -35,4 +33,28 @@ describe('jasstor', () => {
       });
     });
   });
+
+  describe('when creadentials file already exist', () => {
+    var jasstor = new Jasstor(credentialsFile);
+    beforeEach((done) => {
+      jasstor.saveCredentials('user', 'password', (err) => done(err));
+    });
+    it('should ovewrite the existing paword', (done) => {
+      fs.readFile(credentialsFile, (err, data) => {
+        checkError(err, done);
+        var jsonData = JSON.parse(data);
+        var hashedPassword = jsonData.user;
+        jasstor.saveCredentials('user', 'password1', (err) => {
+          checkError(err, done);
+          fs.readFile(credentialsFile, (err, data) => {
+            checkError(err, done);
+            var jsonData = JSON.parse(data);
+            jsonData.user.should.not.equal(hashedPassword);
+            done();
+          });
+        });
+      });
+    });
+  });
+
 });
