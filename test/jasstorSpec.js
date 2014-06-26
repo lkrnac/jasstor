@@ -35,6 +35,7 @@ describe('jasstor', function () {
           checkError(err, done);
           var jsonData = JSON.parse(data);
           jsonData.user.should.be.ok;
+          jsonData.user.should.not.equal('password');
           done();
         });
       });
