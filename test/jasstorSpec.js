@@ -8,36 +8,31 @@ var Jasstor = require('../dist/jasstor.js');
 
 var credentialsFile = 'testCredentials.txt';
 
-var checkError = function (err, done) {
+var checkError = (err, done) => {
   if (err) {
     done(err);
   }
 };
 
-var callTestingMethod = function (done) {
+var callTestingMethod = (done) => {
   var jasstor = new Jasstor(credentialsFile);
-  jasstor.saveCredentials('user', 'password', function () {
-    done();
-  });
+  jasstor.saveCredentials('user', 'password', () => done());
 };
 
-describe('jasstor', function () {
-  describe('when creadentials file doesn\'t exist', function () {
-    beforeEach(function (done) {
-      fs.unlink(credentialsFile, function (err) {
-        //ignore error when testing file didn't exist before deletion
-        callTestingMethod(done);
+describe('jasstor', () => {
+  describe('when creadentials file doesn\'t exist', () => {
+    beforeEach((done) => {
+      //ignore error when testing file didn't exist before deletion
+      fs.unlink(credentialsFile, (err) => callTestingMethod(done));
+    });
+    it('should store the password', (done) => {
+      fs.readFile(credentialsFile, (err, data) => {
+        checkError(err, done);
+        var jsonData = JSON.parse(data);
+        jsonData.user.should.be.ok;
+        jsonData.user.should.not.equal('password');
+        done();
       });
     });
-    it('should store the password',
-      function (done) {
-        fs.readFile(credentialsFile, function (err, data) {
-          checkError(err, done);
-          var jsonData = JSON.parse(data);
-          jsonData.user.should.be.ok;
-          jsonData.user.should.not.equal('password');
-          done();
-        });
-      });
   });
 });

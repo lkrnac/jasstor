@@ -24,6 +24,8 @@ gulp.task('build', function () {
 //Runs mocha test against compiled ES5 source code
 gulp.task('test', ['build'], function () {
   return gulp.src(paths.tests)
+    .pipe(traceur())
+    .pipe(gulp.dest('tmp'))
     .pipe(mocha({
       reporter: 'spec'
     }));
@@ -39,6 +41,8 @@ gulp.task('coverage', function (cb) {
     .on('finish', function () {
       gulp.src([paths.tests])
         .pipe(jshint())
+        .pipe(traceur())
+        .pipe(gulp.dest('tmp'))
         .pipe(mocha())
         .pipe(istanbul.writeReports())
         .on('finish', function () {
