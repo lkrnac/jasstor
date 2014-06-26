@@ -16,9 +16,8 @@ var paths = {
 //Compiles ES6 into ES5
 gulp.task('build', function () {
   return gulp.src(paths.scripts)
-    .pipe(traceur({
-      sourceMap: true
-    }))
+    .pipe(jshint())
+    .pipe(traceur())
     .pipe(gulp.dest('dist'));
 });
 
@@ -31,19 +30,26 @@ gulp.task('test', ['build'], function () {
 });
 
 //Runs mocha test ands submits coverage to coveralls.io
-gulp.task('coverage', ['build'], function (cb) {
-  gulp.src([paths.dist])
+gulp.task('coverage', function (cb) {
+  gulp.src([paths.scripts])
     .pipe(jshint())
+    .pipe(traceur())
+    .pipe(gulp.dest('dist'))
     .pipe(istanbul())
     .on('finish', function () {
       gulp.src([paths.tests])
         .pipe(jshint())
         .pipe(mocha())
         .pipe(istanbul.writeReports())
+        .on('finish', function () {
+          gulp.src('coverage/lcov.info')
+            .pipe(coveralls({
+              error: false
+            }));
+        })
         .on('end', cb);
     });
-  gulp.src('coverage/lcov.info')
-    .pipe(coveralls());
+
 });
 
 gulp.task('watch', function () {

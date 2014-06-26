@@ -25,6 +25,8 @@
   "maxcomplexity": 4,
   "maxlen": 80,
 
+  "expr": true,
+
   "esnext": true,
   "globals": {
     "describe": false,
