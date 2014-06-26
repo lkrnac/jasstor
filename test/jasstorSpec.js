@@ -17,13 +17,13 @@ var checkError = (err, done) => {
 describe('jasstor', () => {
   describe('when creadentials file doesn\'t exist', () => {
     var jasstor = new Jasstor(credentialsFile);
-    beforeEach((done) => {
+    beforeEach(done => {
       //ignore error when testing file didn't exist before deletion
-      fs.unlink(credentialsFile, (err) => {
-        jasstor.saveCredentials('user', 'password', (err) => done(err));
+      fs.unlink(credentialsFile, err => {
+        jasstor.saveCredentials('user', 'password', err => done(err));
       });
     });
-    it('should store the password', (done) => {
+    it('should store the password', done => {
       fs.readFile(credentialsFile, (err, data) => {
         checkError(err, done);
         var jsonData = JSON.parse(data);
@@ -39,12 +39,12 @@ describe('jasstor', () => {
     beforeEach((done) => {
       jasstor.saveCredentials('user', 'password', (err) => done(err));
     });
-    it('should ovewrite the existing paword', (done) => {
+    it('should ovewrite the existing paword', done => {
       fs.readFile(credentialsFile, (err, data) => {
         checkError(err, done);
         var jsonData = JSON.parse(data);
         var hashedPassword = jsonData.user;
-        jasstor.saveCredentials('user', 'password1', (err) => {
+        jasstor.saveCredentials('user', 'password1', err => {
           checkError(err, done);
           fs.readFile(credentialsFile, (err, data) => {
             checkError(err, done);
