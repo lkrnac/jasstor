@@ -3,3 +3,4 @@ npm-debug.log
 /coverage/
 /dist/
 /testCredentials.txt
+/tmp/jasstorSpec.js
