@@ -20,6 +20,7 @@
   ],
   "keywords": [],
   "devDependencies": {
+    "bluebird": "^2.3.2",
     "gulp": "^3.8.7",
     "gulp-coveralls": "^0.1.2",
     "gulp-istanbul": "^0.2.2",
