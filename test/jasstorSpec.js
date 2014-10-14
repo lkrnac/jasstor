@@ -8,15 +8,10 @@ var fs = Bluebird.promisifyAll(require('fs'));
 // jshint -W098
 var should = require('should');
 
+var checkError = require('../test/testUtils').checkError;
 import Jasstor from '../dist/jasstor.js';
 
 var credentialsFile = 'testCredentials.txt';
-
-var checkError = (err, done) => {
-  if (err) {
-    done(err);
-  }
-};
 
 var readFilePromise = function (credentialsFile, userName) {
   return fs.readFileAsync(credentialsFile)
@@ -94,5 +89,4 @@ describe('jasstor', () => {
         });
     });
   });
-
 });

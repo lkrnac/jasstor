@@ -29,11 +29,10 @@
     "gulp-traceur": "^0.13.0",
     "gulp-watch": "^0.7.0",
     "jshint-stylish": "^0.4.0",
-    "should": "^4.0.4",
-    "traceur": "0.0.58"
+    "should": "^4.0.4"
   },
   "scripts": {
-    "test": "gulp coverage",
+    "test": "gulp --gulpfile gulpfile-es5.js && gulp coverage",
     "build": "gulp build"
   },
   "dependencies": {
