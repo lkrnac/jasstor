@@ -16,7 +16,7 @@ gulp.task('build', function (cb) {
 });
 
 gulp.task('default', ['build'], function(){
-  return gulp.src('test/es5Spec.js')
+  return gulp.src('./test/es5Spec.js')
     .pipe(mocha({
       reporter: 'spec'
     }));
