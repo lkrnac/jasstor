@@ -9,7 +9,7 @@ var jshint = require('gulp-jshint');
 
 var paths = {
   scripts: './lib/jasstor.js',
-  tests: './test/jasstorSpec.js',
+  tests: ['./test/jasstorClbkSpec.js', './test/jasstorPromiseSpec.js'],
   dist: './dist/jasstor.js'
 };
 
@@ -36,6 +36,7 @@ gulp.task('test', ['build'], function (cb) {
     });
 });
 
+//Submit coverage report to overalls.io
 gulp.task('coveralls', ['test'], function () {
   return gulp.src('./coverage/lcov.info').pipe(coveralls({
     error: false

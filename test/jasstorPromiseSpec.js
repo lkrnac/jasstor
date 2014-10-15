@@ -24,7 +24,7 @@ var readFilePromise = function (credentialsFile, userName) {
     });
 };
 
-describe('jasstor', () => {
+describe('jasstor tested with promises', () => {
   describe('when creadentials file doesn\'t exist', () => {
     var jasstor = new Jasstor(credentialsFile);
     beforeEach(done => {
@@ -45,29 +45,6 @@ describe('jasstor', () => {
   });
 
   describe('when creadentials file already exist', () => {
-    var jasstor = new Jasstor(credentialsFile);
-    beforeEach((done) => {
-      jasstor.saveCredentials('user', 'password', (err) => done(err));
-    });
-    it('should overwrite existing password', done => {
-      fs.readFile(credentialsFile, (err, data) => {
-        checkError(err, done);
-        var jsonData = JSON.parse(data);
-        var hashedPassword = jsonData.user;
-        jasstor.saveCredentials('user', 'password1', err => {
-          checkError(err, done);
-          fs.readFile(credentialsFile, (err, data) => {
-            checkError(err, done);
-            var jsonData = JSON.parse(data);
-            jsonData.user.should.not.equal(hashedPassword);
-            done();
-          });
-        });
-      });
-    });
-  });
-
-  describe('when creadentials file already exist (using promises)', () => {
     var jasstorWithCallbacks = new Jasstor(credentialsFile);
     var jasstor = Bluebird.promisifyAll(jasstorWithCallbacks);
     beforeEach((done) => {
