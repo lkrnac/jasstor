@@ -1,5 +1,4 @@
 'use strict';
-
 //this include is only for debugging purposes
 //var traceur = require('traceur');
 
@@ -8,7 +7,6 @@ var fs = Bluebird.promisifyAll(require('fs'));
 // jshint -W098
 var should = require('should');
 
-var checkError = require('../test/testUtils').checkError;
 import Jasstor from '../dist/jasstor.js';
 
 var credentialsFile = 'testCredentials.txt';
