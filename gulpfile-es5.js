@@ -2,7 +2,6 @@
 
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
-var plumber = require('gulp-plumber');
 
 var exec = require('child_process').exec;
 
@@ -18,7 +17,6 @@ gulp.task('build', function (cb) {
 
 gulp.task('default', ['build'], function () {
   return gulp.src('./test/es5Spec.js')
-    .pipe(plumber())
     .pipe(mocha({
       reporter: 'spec'
     }));

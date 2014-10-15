@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 //this include is only for debugging purposes
 //var traceur = require('traceur');
 
@@ -37,7 +37,7 @@ describe('jasstor tested with promises', () => {
           newPassword = readFilePromise(credentialsFile, 'user');
           newPassword.should.be.ok;
           originalPassword.should.be.ok;
-          newPassword.should.not.equal(newPassword);
+          newPassword.should.not.equal(originalPassword);
           done();
         })
         .catch((err) => {

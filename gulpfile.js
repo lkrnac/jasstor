@@ -7,7 +7,6 @@ var istanbul = require('gulp-istanbul');
 var coveralls = require('gulp-coveralls');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
-var plumber = require('gulp-plumber');
 
 var paths = {
   scripts: './lib/jasstor.js',
@@ -18,10 +17,9 @@ var paths = {
 //Compiles ES6 into ES5
 gulp.task('build', function () {
   return gulp.src(paths.scripts)
-    .pipe(plumber())
     .pipe(jshint())
     .pipe(jshint.reporter(stylish))
-    //.pipe(jshint.reporter('fail'))
+    .pipe(jshint.reporter('fail'))
     .pipe(traceur())
     .pipe(gulp.dest('dist'));
 });
@@ -29,15 +27,13 @@ gulp.task('build', function () {
 //Transpile to ES5 and runs mocha test
 gulp.task('test', ['build'], function (cb) {
   gulp.src([paths.dist])
-    .pipe(plumber())
     .pipe(istanbul())
     .on('finish', function () {
       gulp.src(paths.tests)
-        .pipe(plumber())
         .pipe(jshint())
         .pipe(jshint.reporter(stylish))
-      //.pipe(jshint.reporter('fail'))
-      .pipe(traceur())
+        .pipe(jshint.reporter('fail'))
+        .pipe(traceur())
         .pipe(gulp.dest('tmp'))
         .pipe(mocha())
         .pipe(istanbul.writeReports())
