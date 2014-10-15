@@ -21,7 +21,7 @@ gulp.task('build', function () {
     .pipe(plumber())
     .pipe(jshint())
     .pipe(jshint.reporter(stylish))
-    .pipe(jshint.reporter('fail'))
+    //.pipe(jshint.reporter('fail'))
     .pipe(traceur())
     .pipe(gulp.dest('dist'));
 });
@@ -36,8 +36,8 @@ gulp.task('test', ['build'], function (cb) {
         .pipe(plumber())
         .pipe(jshint())
         .pipe(jshint.reporter(stylish))
-        .pipe(jshint.reporter('fail'))
-        .pipe(traceur())
+      //.pipe(jshint.reporter('fail'))
+      .pipe(traceur())
         .pipe(gulp.dest('tmp'))
         .pipe(mocha())
         .pipe(istanbul.writeReports())

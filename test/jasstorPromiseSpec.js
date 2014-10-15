@@ -37,12 +37,14 @@ describe('jasstor tested with promises', () => {
           newPassword = readFilePromise(credentialsFile, 'user');
           newPassword.should.be.ok;
           originalPassword.should.be.ok;
-          newPassword.should.not.equal(originalPassword);
+          newPassword.should.not.equal(newPassword);
           done();
         })
         .catch((err) => {
           throw err;
         });
     });
+    //it('should')
   });
+
 });
