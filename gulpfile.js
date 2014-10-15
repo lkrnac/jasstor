@@ -6,6 +6,7 @@ var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
 var coveralls = require('gulp-coveralls');
 var jshint = require('gulp-jshint');
+var plumber = require('gulp-plumber');
 
 var paths = {
   scripts: './lib/jasstor.js',
@@ -15,18 +16,21 @@ var paths = {
 
 //Compiles ES6 into ES5
 gulp.task('build', function () {
- return gulp.src(paths.scripts)
- .pipe(jshint())
- .pipe(traceur())
- .pipe(gulp.dest('dist'));
+  return gulp.src(paths.scripts)
+    .pipe(plumber())
+    .pipe(jshint())
+    .pipe(traceur())
+    .pipe(gulp.dest('dist'));
 });
 
 //Transpile to ES5 and runs mocha test
 gulp.task('test', ['build'], function (cb) {
   gulp.src([paths.dist])
+    .pipe(plumber())
     .pipe(istanbul())
     .on('finish', function () {
       gulp.src(paths.tests)
+        .pipe(plumber())
         .pipe(jshint())
         .pipe(traceur())
         .pipe(gulp.dest('tmp'))
