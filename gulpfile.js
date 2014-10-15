@@ -6,6 +6,7 @@ var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
 var coveralls = require('gulp-coveralls');
 var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
 var plumber = require('gulp-plumber');
 
 var paths = {
@@ -19,6 +20,8 @@ gulp.task('build', function () {
   return gulp.src(paths.scripts)
     .pipe(plumber())
     .pipe(jshint())
+    .pipe(jshint.reporter(stylish))
+    .pipe(jshint.reporter('fail'))
     .pipe(traceur())
     .pipe(gulp.dest('dist'));
 });
@@ -32,6 +35,8 @@ gulp.task('test', ['build'], function (cb) {
       gulp.src(paths.tests)
         .pipe(plumber())
         .pipe(jshint())
+        .pipe(jshint.reporter(stylish))
+        .pipe(jshint.reporter('fail'))
         .pipe(traceur())
         .pipe(gulp.dest('tmp'))
         .pipe(mocha())

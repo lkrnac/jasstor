@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 //this include is only for debugging purposes
 //var traceur = require('traceur');
 
