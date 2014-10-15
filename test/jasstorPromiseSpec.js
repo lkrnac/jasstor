@@ -23,9 +23,24 @@ var readFilePromise = function (credentialsFile, userName) {
 };
 
 describe('jasstor tested with promises', () => {
+  var jasstorWithCallbacks = new Jasstor(credentialsFile);
+  var jasstor = Bluebird.promisifyAll(jasstorWithCallbacks);
+
+  describe('when creadentials file doesn\'t exist', () => {
+    beforeEach(done => {
+      //ignore error when testing file didn't exist before deletion
+      fs.unlink(credentialsFile, err => {
+        jasstor.saveCredentials('user', 'password', err => done(err));
+      });
+    });
+    it('should store the password', done => {
+      var password = readFilePromise(credentialsFile, 'user');
+      password.should.not.equal('password');
+      done();
+    });
+  });
+
   describe('when creadentials file already exist', () => {
-    var jasstorWithCallbacks = new Jasstor(credentialsFile);
-    var jasstor = Bluebird.promisifyAll(jasstorWithCallbacks);
     beforeEach((done) => {
       jasstor.saveCredentials('user', 'password', (err) => done(err));
     });
