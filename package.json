@@ -32,7 +32,7 @@
     "should": "^4.0.4"
   },
   "scripts": {
-    "test": "gulp --gulpfile gulpfile-es5.js && gulp coverage",
+    "test": "gulp --gulpfile gulpfile-es5.js && gulp",
     "build": "gulp build"
   },
   "dependencies": {
