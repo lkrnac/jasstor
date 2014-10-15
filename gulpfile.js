@@ -13,15 +13,20 @@ var paths = {
   dist: './dist/jasstor.js'
 };
 
+//Compiles ES6 into ES5
+gulp.task('build', function () {
+ return gulp.src(paths.scripts)
+ .pipe(jshint())
+ .pipe(traceur())
+ .pipe(gulp.dest('dist'));
+});
+
 //Transpile to ES5 and runs mocha test
-gulp.task('test', function (cb) {
-  gulp.src([paths.scripts])
-    .pipe(jshint())
-    .pipe(traceur())
-    .pipe(gulp.dest('dist'))
+gulp.task('test', ['build'], function (cb) {
+  gulp.src([paths.dist])
     .pipe(istanbul())
     .on('finish', function () {
-      gulp.src([paths.tests])
+      gulp.src(paths.tests)
         .pipe(jshint())
         .pipe(traceur())
         .pipe(gulp.dest('tmp'))
@@ -32,7 +37,9 @@ gulp.task('test', function (cb) {
 });
 
 gulp.task('coveralls', ['test'], function () {
-  return gulp.src('coverage/lcov.info').pipe(coveralls());
+  return gulp.src('./coverage/lcov.info').pipe(coveralls({
+    error: false
+  }));
 });
 
 gulp.task('watch', function () {
