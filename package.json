@@ -32,8 +32,7 @@
     "should": "^4.0.4"
   },
   "scripts": {
-    "test": "gulp --gulpfile gulpfile-es5.js && gulp",
-    "build": "gulp build"
+    "test": "gulp --gulpfile gulpfile-es5.js && gulp"
   },
   "dependencies": {
     "bcrypt": "^0.8.0"
