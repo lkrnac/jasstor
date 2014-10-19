@@ -29,24 +29,22 @@ var verifyNotOk = (done) => {
   };
 };
 
-
 describe('jasstor', () => {
   describe('when creadentials file doesn\'t exist', () => {
     var jasstor = new Jasstor(credentialsFile);
     beforeEach(done => {
-      //ignore error when testing file didn't exist before deletion
-      fs.unlink(credentialsFile, err => {
-        jasstor.saveCredentials('user', 'password', done);
-      });
+      fs.unlink(credentialsFile, done);
     });
 
     it('should store the password', done => {
-      fs.readFile(credentialsFile, (err, data) => {
-        checkError(err, done);
-        var jsonData = JSON.parse(data);
-        jsonData.user.should.be.ok;
-        jsonData.user.should.not.equal('password');
-        done();
+      jasstor.saveCredentials('user', 'password', () => {
+        fs.readFile(credentialsFile, (err, data) => {
+          checkError(err, done);
+          var jsonData = JSON.parse(data);
+          jsonData.user.should.be.ok;
+          jsonData.user.should.not.equal('password');
+          done();
+        });
       });
     });
 
@@ -58,7 +56,9 @@ describe('jasstor', () => {
   describe('when creadentials file already exist', () => {
     var jasstor = new Jasstor(credentialsFile);
     beforeEach((done) => {
-      jasstor.saveCredentials('user', 'password', done);
+      fs.unlink(credentialsFile, () => {
+        jasstor.saveCredentials('user', 'password', done);
+      });
     });
 
     it('should overwrite existing password', done => {
@@ -75,6 +75,14 @@ describe('jasstor', () => {
             done();
           });
         });
+      });
+    });
+
+    it('should store various passwords', done => {
+      jasstor.saveCredentials('user1', 'password1', () => {
+        jasstor.verify('user1', 'password1', verifyOk(() => {
+          jasstor.verify('user', 'password', verifyOk(done));
+        }));
       });
     });
 

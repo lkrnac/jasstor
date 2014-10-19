@@ -89,7 +89,9 @@ describe('jasstor tested with promises', () => {
     it('should store various passwords', done => {
       jasstor.saveCredentialsAsync('user1', 'password1')
         .then(() => {
-          verifyOk(jasstor, 'user1', 'password1', done);
+          verifyOk(jasstor, 'user1', 'password1', () => {
+            verifyOk(jasstor, 'user', 'password', done);
+          });
         })
         .catch(done);
     });
