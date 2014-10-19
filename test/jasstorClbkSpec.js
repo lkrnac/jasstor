@@ -13,6 +13,23 @@ import Jasstor from '../dist/jasstor.js';
 
 var credentialsFile = 'testCredentials.txt';
 
+var verifyOk = (done) => {
+  return (err, result) => {
+    checkError(err, done);
+    result.should.be.ok;
+    done();
+  };
+};
+
+var verifyNotOk = (done) => {
+  return (err, result) => {
+    checkError(err, done);
+    result.should.not.be.ok;
+    done();
+  };
+};
+
+
 describe('jasstor', () => {
   describe('when creadentials file doesn\'t exist', () => {
     var jasstor = new Jasstor(credentialsFile);
@@ -58,27 +75,15 @@ describe('jasstor', () => {
     });
 
     it('should accept correct password', done => {
-      jasstor.verify('user', 'password', (err, result) => {
-        checkError(err, done);
-        result.should.be.ok;
-        done();
-      });
+      jasstor.verify('user', 'password', verifyOk(done));
     });
 
     it('should refuse incorrect password', done => {
-      jasstor.verify('user', 'password1', (err, result) => {
-        checkError(err, done);
-        result.should.not.be.ok;
-        done();
-      });
+      jasstor.verify('user', 'password1', verifyNotOk(done));
     });
 
     it('should refuse non-existing user', done => {
-      jasstor.verify('user1', 'password1', (err, result) => {
-        checkError(err, done);
-        result.should.not.be.ok;
-        done();
-      });
+      jasstor.verify('user1', 'password1', verifyNotOk(done));
     });
   });
 });

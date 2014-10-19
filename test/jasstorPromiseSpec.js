@@ -22,6 +22,23 @@ var readFilePromise = function (credentialsFile, userName) {
     });
 };
 
+// jshint -W072
+var verifyNotOk = (jasstor, user, password, done) => {
+  jasstor.verifyAsync(user, password)
+    .then((result) => {
+      result.should.not.be.ok;
+      done();
+    }).catch(done);
+};
+
+var verifyOk = (jasstor, user, password, done) => {
+  jasstor.verifyAsync(user, password)
+    .then((result) => {
+      result.should.be.ok;
+      done();
+    }).catch(done);
+};
+
 describe('jasstor tested with promises', () => {
   var jasstor = Bluebird.promisifyAll(new Jasstor(credentialsFile));
 
@@ -38,6 +55,8 @@ describe('jasstor tested with promises', () => {
       password.should.not.equal('password');
       done();
     });
+
+
   });
 
   describe('when creadentials file already exist', () => {
@@ -64,25 +83,15 @@ describe('jasstor tested with promises', () => {
     //
     //    });
     it('should accept correct password', done => {
-      jasstor.verifyAsync('user', 'password')
-        .then((result) => {
-          result.should.be.ok;
-          done();
-        }).catch(done);
+      verifyOk(jasstor, 'user', 'password', done);
     });
+
     it('should refuse incorrect password', done => {
-      jasstor.verifyAsync('user', 'password1')
-        .then((result) => {
-          result.should.not.be.ok;
-          done();
-        }).catch(done);
+      verifyNotOk(jasstor, 'user', 'password1', done);
     });
+
     it('should refuse non-existing user', done => {
-      jasstor.verifyAsync('user1', 'password1')
-        .then((result) => {
-          result.should.not.be.ok;
-          done();
-        }).catch(done);
+      verifyNotOk(jasstor, 'user1', 'password1', done);
     });
   });
 
