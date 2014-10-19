@@ -49,6 +49,10 @@ describe('jasstor', () => {
         done();
       });
     });
+
+    it('should refuse non-existing user', done => {
+      jasstor.verify('user1', 'password1', verifyNotOk(done));
+    });
   });
 
   describe('when creadentials file already exist', () => {

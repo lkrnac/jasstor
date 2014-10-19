@@ -56,7 +56,9 @@ describe('jasstor tested with promises', () => {
       done();
     });
 
-
+    it('should refuse non-existing user', done => {
+      verifyNotOk(jasstor, 'user1', 'password1', done);
+    });
   });
 
   describe('when creadentials file already exist', () => {
