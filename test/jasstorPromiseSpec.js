@@ -25,7 +25,7 @@ var readFilePromise = function (credentialsFile, userName) {
 // jshint -W072
 var verifyNotOk = (jasstor, user, password, done) => {
   jasstor.verifyAsync(user, password)
-    .then((result) => {
+    .then(result => {
       result.should.not.be.ok;
       done();
     }).catch(done);
@@ -33,7 +33,7 @@ var verifyNotOk = (jasstor, user, password, done) => {
 
 var verifyOk = (jasstor, user, password, done) => {
   jasstor.verifyAsync(user, password)
-    .then((result) => {
+    .then(result => {
       result.should.be.ok;
       done();
     }).catch(done);
@@ -44,16 +44,19 @@ describe('jasstor tested with promises', () => {
 
   describe('when creadentials file doesn\'t exist', () => {
     beforeEach(done => {
-      //ignore error when testing file didn't exist before deletion
-      fs.unlink(credentialsFile, err => {
-        jasstor.saveCredentials('user', 'password', done);
-      });
+      fs.unlinkAsync(credentialsFile)
+        .finally(() => {
+          done();
+        });
     });
 
-    it('should store the password', done => {
-      var password = readFilePromise(credentialsFile, 'user');
-      password.should.not.equal('password');
-      done();
+    it('should store the encrypted password', done => {
+      jasstor.saveCredentialsAsync('user', 'password')
+        .then(() => {
+          var password = readFilePromise(credentialsFile, 'user');
+          password.should.not.equal('password');
+          done();
+        }).catch(done);
     });
 
     it('should refuse non-existing user', done => {
@@ -62,8 +65,11 @@ describe('jasstor tested with promises', () => {
   });
 
   describe('when creadentials file already exist', () => {
-    beforeEach((done) => {
-      jasstor.saveCredentials('user', 'password', done);
+    beforeEach(done => {
+      fs.unlinkAsync(credentialsFile)
+        .finally(() => {
+          jasstor.saveCredentials('user', 'password', done);
+        });
     });
 
     it('should overwrite existing password', done => {
@@ -80,10 +86,13 @@ describe('jasstor tested with promises', () => {
         .catch(done);
     });
 
-//    it('should store various passwords', done => {
-//      jasstor.saveCredentials('user1', 'password1', done);
-//
-//    });
+    it('should store various passwords', done => {
+      jasstor.saveCredentialsAsync('user1', 'password1')
+        .then(() => {
+          verifyOk(jasstor, 'user1', 'password1', done);
+        })
+        .catch(done);
+    });
     it('should accept correct password', done => {
       verifyOk(jasstor, 'user', 'password', done);
     });
