@@ -36,7 +36,7 @@ describe('jasstor', () => {
     beforeEach(done => {
       //ignore error when testing file didn't exist before deletion
       fs.unlink(credentialsFile, err => {
-        jasstor.saveCredentials('user', 'password', err => done(err));
+        jasstor.saveCredentials('user', 'password', done);
       });
     });
 
@@ -58,7 +58,7 @@ describe('jasstor', () => {
   describe('when creadentials file already exist', () => {
     var jasstor = new Jasstor(credentialsFile);
     beforeEach((done) => {
-      jasstor.saveCredentials('user', 'password', (err) => done(err));
+      jasstor.saveCredentials('user', 'password', done);
     });
 
     it('should overwrite existing password', done => {

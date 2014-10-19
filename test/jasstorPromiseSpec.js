@@ -46,7 +46,7 @@ describe('jasstor tested with promises', () => {
     beforeEach(done => {
       //ignore error when testing file didn't exist before deletion
       fs.unlink(credentialsFile, err => {
-        jasstor.saveCredentials('user', 'password', err => done(err));
+        jasstor.saveCredentials('user', 'password', done);
       });
     });
 
@@ -63,7 +63,7 @@ describe('jasstor tested with promises', () => {
 
   describe('when creadentials file already exist', () => {
     beforeEach((done) => {
-      jasstor.saveCredentials('user', 'password', (err) => done(err));
+      jasstor.saveCredentials('user', 'password', done);
     });
 
     it('should overwrite existing password', done => {
@@ -80,10 +80,10 @@ describe('jasstor tested with promises', () => {
         .catch(done);
     });
 
-    //    it('should store various passwords', done => {
-    //      jasstor.saveCredentials('user1', 'password1', (err) => done(err));
-    //
-    //    });
+//    it('should store various passwords', done => {
+//      jasstor.saveCredentials('user1', 'password1', done);
+//
+//    });
     it('should accept correct password', done => {
       verifyOk(jasstor, 'user', 'password', done);
     });
