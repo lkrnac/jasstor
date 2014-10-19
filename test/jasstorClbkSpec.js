@@ -22,6 +22,7 @@ describe('jasstor', () => {
         jasstor.saveCredentials('user', 'password', err => done(err));
       });
     });
+
     it('should store the password', done => {
       fs.readFile(credentialsFile, (err, data) => {
         checkError(err, done);
@@ -38,6 +39,7 @@ describe('jasstor', () => {
     beforeEach((done) => {
       jasstor.saveCredentials('user', 'password', (err) => done(err));
     });
+
     it('should overwrite existing password', done => {
       fs.readFile(credentialsFile, (err, data) => {
         checkError(err, done);
@@ -52,6 +54,30 @@ describe('jasstor', () => {
             done();
           });
         });
+      });
+    });
+
+    it('should accept correct password', done => {
+      jasstor.verify('user', 'password', (err, result) => {
+        checkError(err, done);
+        result.should.be.ok;
+        done();
+      });
+    });
+
+    it('should refuse incorrect password', done => {
+      jasstor.verify('user', 'password1', (err, result) => {
+        checkError(err, done);
+        result.should.not.be.ok;
+        done();
+      });
+    });
+
+    it('should refuse non-existing user', done => {
+      jasstor.verify('user1', 'password1', (err, result) => {
+        checkError(err, done);
+        result.should.not.be.ok;
+        done();
       });
     });
   });

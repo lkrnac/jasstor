@@ -23,8 +23,7 @@ var readFilePromise = function (credentialsFile, userName) {
 };
 
 describe('jasstor tested with promises', () => {
-  var jasstorWithCallbacks = new Jasstor(credentialsFile);
-  var jasstor = Bluebird.promisifyAll(jasstorWithCallbacks);
+  var jasstor = Bluebird.promisifyAll(new Jasstor(credentialsFile));
 
   describe('when creadentials file doesn\'t exist', () => {
     beforeEach(done => {
@@ -33,6 +32,7 @@ describe('jasstor tested with promises', () => {
         jasstor.saveCredentials('user', 'password', err => done(err));
       });
     });
+
     it('should store the password', done => {
       var password = readFilePromise(credentialsFile, 'user');
       password.should.not.equal('password');
@@ -44,6 +44,7 @@ describe('jasstor tested with promises', () => {
     beforeEach((done) => {
       jasstor.saveCredentials('user', 'password', (err) => done(err));
     });
+
     it('should overwrite existing password', done => {
       var originalPassword = readFilePromise(credentialsFile, 'user');
       var newPassword;
@@ -55,11 +56,34 @@ describe('jasstor tested with promises', () => {
           newPassword.should.not.equal(originalPassword);
           done();
         })
-        .catch((err) => {
-          throw err;
-        });
+        .catch(done);
     });
-    //it('should')
+
+    //    it('should store various passwords', done => {
+    //      jasstor.saveCredentials('user1', 'password1', (err) => done(err));
+    //
+    //    });
+    it('should accept correct password', done => {
+      jasstor.verifyAsync('user', 'password')
+        .then((result) => {
+          result.should.be.ok;
+          done();
+        }).catch(done);
+    });
+    it('should refuse incorrect password', done => {
+      jasstor.verifyAsync('user', 'password1')
+        .then((result) => {
+          result.should.not.be.ok;
+          done();
+        }).catch(done);
+    });
+    it('should refuse non-existing user', done => {
+      jasstor.verifyAsync('user1', 'password1')
+        .then((result) => {
+          result.should.not.be.ok;
+          done();
+        }).catch(done);
+    });
   });
 
 });
