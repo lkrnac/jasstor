@@ -4,7 +4,6 @@
 
 var Bluebird = require('bluebird');
 var fs = Bluebird.promisifyAll(require('fs'));
-// jshint -W098
 var should = require('should');
 
 import Jasstor from '../dist/jasstor.js';
@@ -15,26 +14,27 @@ var readFilePromise = function (credentialsFile, userName) {
   return fs.readFileAsync(credentialsFile)
     .then(JSON.parse)
     .then(jsonData => {
-      return jsonData[userName];
+      return jsonData[userName].password;
     })
     .catch((err) => {
       throw err;
     });
 };
 
-// jshint -W072
+
 var verifyNotOk = (jasstor, user, password, done) => {
   jasstor.verifyAsync(user, password)
     .then(result => {
-      result.should.not.be.ok;
+      should(result).not.be.ok;
       done();
     }).catch(done);
 };
 
-var verifyOk = (jasstor, user, password, done) => {
+/* jshint maxparams: 5 */
+var verifyOk = (jasstor, user, password, expectedRole, done) => {
   jasstor.verifyAsync(user, password)
-    .then(result => {
-      result.should.be.ok;
+    .then(actualRole => {
+      actualRole.should.be.equal(expectedRole);
       done();
     }).catch(done);
 };
@@ -44,14 +44,16 @@ describe('jasstor tested with promises', () => {
 
   describe('when creadentials file doesn\'t exist', () => {
     beforeEach(done => {
+      //done callback is not passed into finally block directly
+      //because we want to ignore possible error
       fs.unlinkAsync(credentialsFile)
         .finally(() => {
           done();
         });
     });
 
-    it('should store the encrypted password', done => {
-      jasstor.saveCredentialsAsync('user', 'password')
+    it('should store encrypted password', done => {
+      jasstor.saveCredentialsAsync('user', 'password', 'role')
         .then(() => {
           var password = readFilePromise(credentialsFile, 'user');
           password.should.not.equal('password');
@@ -68,14 +70,14 @@ describe('jasstor tested with promises', () => {
     beforeEach(done => {
       fs.unlinkAsync(credentialsFile)
         .finally(() => {
-          jasstor.saveCredentials('user', 'password', done);
+          jasstor.saveCredentials('user', 'password', 'role', done);
         });
     });
 
     it('should overwrite existing password', done => {
       var originalPassword = readFilePromise(credentialsFile, 'user');
       var newPassword;
-      jasstor.saveCredentialsAsync('user', 'password1')
+      jasstor.saveCredentialsAsync('user', 'password1', 'role')
         .then(() => {
           newPassword = readFilePromise(credentialsFile, 'user');
           newPassword.should.be.ok;
@@ -87,16 +89,16 @@ describe('jasstor tested with promises', () => {
     });
 
     it('should store various passwords', done => {
-      jasstor.saveCredentialsAsync('user1', 'password1')
+      jasstor.saveCredentialsAsync('user1', 'password1', 'role1')
         .then(() => {
-          verifyOk(jasstor, 'user1', 'password1', () => {
-            verifyOk(jasstor, 'user', 'password', done);
+          verifyOk(jasstor, 'user1', 'password1', 'role1', () => {
+            verifyOk(jasstor, 'user', 'password', 'role', done);
           });
         })
         .catch(done);
     });
     it('should accept correct password', done => {
-      verifyOk(jasstor, 'user', 'password', done);
+      verifyOk(jasstor, 'user', 'password', 'role', done);
     });
 
     it('should refuse incorrect password', done => {
