@@ -108,6 +108,22 @@ describe('jasstor tested with promises', () => {
     it('should refuse non-existing user', done => {
       verifyNotOk(jasstor, 'user1', 'password1', done);
     });
+
+    it('should return correct role for existing user', done => {
+      jasstor.getRoleAsync('user')
+        .then(role => {
+          role.should.be.equal('role');
+          done();
+        }).catch(done);
+    });
+
+    it('should not find role for non-existing user', done => {
+      jasstor.getRoleAsync('user1')
+        .then(role => {
+        should(role).be.undefined;
+        done();
+      }).catch(done);
+    });
   });
 
 });

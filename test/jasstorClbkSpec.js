@@ -98,5 +98,21 @@ describe('jasstor', () => {
     it('should refuse non-existing user', done => {
       jasstor.verify('user1', 'password1', verifyNotOk(done));
     });
+
+    it('should return correct role for existing user', done => {
+      jasstor.getRole('user', (err, role) => {
+        checkError(err);
+        'role'.should.be.equal(role);
+        done();
+      });
+    });
+
+    it('should not find role for non-existing user', done => {
+      jasstor.getRole('user1', (err, role) => {
+        checkError(err);
+        should(role).be.undefined;
+        done();
+      });
+    });
   });
 });
