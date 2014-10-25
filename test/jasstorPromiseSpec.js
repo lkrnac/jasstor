@@ -21,7 +21,6 @@ var readFilePromise = function (credentialsFile, userName) {
     });
 };
 
-
 var verifyNotOk = (jasstor, user, password, done) => {
   jasstor.verifyAsync(user, password)
     .then(result => {
