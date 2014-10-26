@@ -8,8 +8,6 @@
 JSON credentials storage and authentication. Passwords are hashed with [bcrypt](https://github.com/ncb000gt/node.bcrypt.js).
 
 ## Getting Started
-Install the module with: `npm install jasstor`
-
 ```javascript
 var Jasstor = require('jasstor');
 var jasstor = new Jasstor('credentials.txt');
