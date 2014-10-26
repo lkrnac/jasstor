@@ -38,17 +38,16 @@ var verifyOk = (jasstor, user, password, expectedRole, done) => {
     }).catch(done);
 };
 
+var ignoreCallback = () => {};
+
 describe('jasstor tested with promises', () => {
   var jasstor = Bluebird.promisifyAll(new Jasstor(credentialsFile));
 
   describe('when creadentials file doesn\'t exist', () => {
     beforeEach(done => {
-      //done callback is not passed into finally block directly
-      //because we want to ignore possible error
       fs.unlinkAsync(credentialsFile)
-        .finally(() => {
-          done();
-        });
+        .finally(done)
+        .catch(ignoreCallback);
     });
 
     it('should store encrypted password', done => {
@@ -70,7 +69,7 @@ describe('jasstor tested with promises', () => {
       fs.unlinkAsync(credentialsFile)
         .finally(() => {
           jasstor.saveCredentials('user', 'password', 'role', done);
-        });
+        }).catch(ignoreCallback);
     });
 
     it('should overwrite existing password', done => {
@@ -83,8 +82,7 @@ describe('jasstor tested with promises', () => {
           originalPassword.should.be.ok;
           newPassword.should.not.equal(originalPassword);
           done();
-        })
-        .catch(done);
+        }).catch(done);
     });
 
     it('should store various passwords', done => {
@@ -93,8 +91,7 @@ describe('jasstor tested with promises', () => {
           verifyOk(jasstor, 'user1', 'password1', 'role1', () => {
             verifyOk(jasstor, 'user', 'password', 'role', done);
           });
-        })
-        .catch(done);
+        }).catch(done);
     });
     it('should accept correct password', done => {
       verifyOk(jasstor, 'user', 'password', 'role', done);

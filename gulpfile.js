@@ -13,7 +13,7 @@ var lazypipe = require('lazypipe');
 var errorOccured = false;
 var paths = {
   scripts: './lib/jasstor.js',
-  tests: ['./test/jasstorClbkSpec.js', './test/jasstorPromiseSpec.js'],
+  tests: ['./test/jasstorPromiseSpec.js', './test/jasstorClbkSpec.js'],
   dist: './dist/jasstor.js'
 };
 
