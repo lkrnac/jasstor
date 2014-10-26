@@ -5,27 +5,50 @@
 [![Dependency Status](https://david-dm.org/lkrnac/jasstor.svg?theme=shields.io)](https://david-dm.org/lkrnac/jasstor)
 [![devDependency Status](https://david-dm.org/lkrnac/jasstor/dev-status.svg?theme=shields.io)](https://david-dm.org/lkrnac/jasstor#info=devDependencies)
 
-JSON credentials storage and authentication
+JSON credentials storage and authentication. Passwords are hashed with [bcrypt](https://github.com/ncb000gt/node.bcrypt.js).
 
 ## Getting Started
 Install the module with: `npm install jasstor`
 
 ```javascript
-var jasstor = require('jasstor');
-jasstor.awesome(); // "awesome"
+var Jasstor = require('jasstor');
+var jasstor = new Jasstor('credentials.txt');
+
+//Encrypt and store password into JSON file
+jasstor.saveCredentials('user', 'password', 'role', function(err){
+  if (err) {
+    //handle error
+  }
+});
+
+//Verify credentials and read user's role
+jasstor.verify('user', 'password', function(err, role){
+  if (role){
+    //user authenticated with role
+  } else {
+    //user don't exist or wrong password
+  }
+});
+
+//Read role for user
+jasstor.getRole('user', function (err, role) {
+  if (role){
+    //user has role
+  } else {
+    //user don't exist
+  }
+});
+
 ```
 
-## Documentation
-_(Coming soon)_
-
-## Examples
-_(Coming soon)_
-
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Gulp](http://gulpjs.com/).
 
-## Release History
-_(Nothing yet)_
+### Build
+```Shell
+npm install
+npm test
+```
 
 ## License
 Copyright (c) 2014 Lubos Krnac. Licensed under the MIT license.
