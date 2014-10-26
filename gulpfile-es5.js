@@ -8,7 +8,7 @@ var exec = require('child_process').exec;
 //This task build in separate process to ensure that
 //Traceur runtime is undefined for upcoming ES5 test
 gulp.task('build', function (cb) {
-  exec('gulp build', function (err, stdout, stderr) {
+  exec('gulp buildPromise', function (err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
     cb(err);

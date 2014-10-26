@@ -28,13 +28,14 @@
     "gulp-jshint": "^1.8.5",
     "gulp-mocha": "^1.1.1",
     "gulp-plumber": "^0.6.6",
+    "gulp-rename": "^1.2.0",
     "gulp-traceur": "^0.13.0",
     "jshint-stylish": "^1.0.0",
     "lazypipe": "^0.2.2",
     "should": "^4.0.4"
   },
   "scripts": {
-    "test": "gulp --gulpfile gulpfile-es5.js && gulp"
+    "test": "gulp --gulpfile gulpfile-es5.js && gulp testClbk && gulp"
   },
   "dependencies": {
     "bcrypt": "^0.8.0"

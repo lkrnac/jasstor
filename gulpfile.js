@@ -9,10 +9,12 @@ var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 var plumber = require('gulp-plumber');
 var lazypipe = require('lazypipe');
+var rename = require('gulp-rename');
 
 var errorOccured = false;
 var paths = {
-  scripts: './lib/jasstor.js',
+  scriptsPromise: './lib/jasstor.js',
+  scriptsClbk: './lib/jasstorClbk.js',
   tests: ['./test/jasstorPromiseSpec.js', './test/jasstorClbkSpec.js'],
   dist: './dist/jasstor.js'
 };
@@ -27,7 +29,7 @@ gulp.task('coveralls', ['test', 'checkError'], function () {
 //It is needed because gulp-plumber forces 0 error code even when error occurs.
 gulp.task('checkError', ['test'], function () {
   if (errorOccured) {
-    console.log('Error occured, exitting build process... ');
+    console.log('Err, distor occured, exitting build process... ');
     process.exit(1);
   }
 });
@@ -46,18 +48,31 @@ var transpilePipe = lazypipe()
   .pipe(jshint.reporter, 'fail')
   .pipe(traceur);
 
-//Compiles ES6 into ES5
-gulp.task('build', function () {
-  return gulp.src(paths.scripts)
+var registerBuildTask = function (taskNameSuffix, paths) {
+  //Compiles ES6 into ES5
+  gulp.task('build' + taskNameSuffix, function () {
+    return gulp.src(paths)
+      .pipe(plumber({
+        errorHandler: errorHandler
+      }))
+      .pipe(transpilePipe())
+      .pipe(rename('jasstor.js'))
+      .pipe(gulp.dest('dist'));
+  });
+};
+
+gulp.task('testClbk', ['buildCallback'], function () {
+  gulp.src(paths.tests)
     .pipe(plumber({
       errorHandler: errorHandler
     }))
     .pipe(transpilePipe())
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('tmp'))
+    .pipe(mocha());
 });
 
 //Transpile to ES5 and runs mocha test
-gulp.task('test', ['build'], function (cb) {
+gulp.task('test', ['buildPromise'], function (cb) {
   gulp.src([paths.dist])
     .pipe(plumber({
       errorHandler: errorHandler
@@ -80,5 +95,9 @@ gulp.task('watch', function () {
   var filesToWatch = paths.tests.concat(paths.scripts);
   gulp.watch(filesToWatch, ['test']);
 });
+
+registerBuildTask('Promise', paths.scriptsPromise);
+registerBuildTask('Callback', paths.scriptsClbk);
+
 
 gulp.task('default', ['test', 'checkError', 'coveralls']);
