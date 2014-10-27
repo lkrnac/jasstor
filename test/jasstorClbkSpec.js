@@ -71,8 +71,10 @@ describe('jasstor', () => {
           checkError(err, done);
           fs.readFile(credentialsFile, (err, data) => {
             checkError(err, done);
-            var changedPassword = JSON.parse(data).user.password;
-            changedPassword.should.not.equal(originalPassword);
+            var newPassword = JSON.parse(data).user.password;
+            newPassword.should.be.ok;
+            originalPassword.should.be.ok;
+            newPassword.should.not.equal(originalPassword);
             done();
           });
         });
