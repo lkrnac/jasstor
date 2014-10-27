@@ -92,7 +92,7 @@ gulp.task('test', ['buildPromise'], function (cb) {
 });
 
 gulp.task('watch', function () {
-  var filesToWatch = paths.tests.concat(paths.scripts);
+  var filesToWatch = paths.tests.concat(paths.scriptsPromise);
   gulp.watch(filesToWatch, ['test']);
 });
 
