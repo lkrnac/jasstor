@@ -10,15 +10,12 @@ import Jasstor from '../dist/jasstor.js';
 
 var credentialsFile = 'testCredentials.txt';
 
-var readFilePromise = function (credentialsFile, userName) {
+var readFilePromise = function (credentialsFile, userName, done) {
   return fs.readFileAsync(credentialsFile)
     .then(JSON.parse)
     .then(jsonData => {
       return jsonData[userName].password;
-    })
-    .catch((err) => {
-      throw err;
-    });
+    }).catch(done);
 };
 
 var verifyNotOk = (jasstor, user, password, done) => {
@@ -33,6 +30,7 @@ var verifyNotOk = (jasstor, user, password, done) => {
 var verifyOk = (jasstor, user, password, expectedRole, done) => {
   jasstor.verifyAsync(user, password)
     .then(actualRole => {
+      actualRole.should.be.ok;
       actualRole.should.be.equal(expectedRole);
       done();
     }).catch(done);
@@ -53,7 +51,7 @@ describe('jasstor tested with promises', () => {
     it('should store encrypted password', done => {
       jasstor.saveCredentialsAsync('user', 'password', 'role')
         .then(() => {
-          var password = readFilePromise(credentialsFile, 'user');
+          var password = readFilePromise(credentialsFile, 'user', done);
           password.should.not.equal('password');
           done();
         }).catch(done);
@@ -73,11 +71,11 @@ describe('jasstor tested with promises', () => {
     });
 
     it('should overwrite existing password', done => {
-      var originalPassword = readFilePromise(credentialsFile, 'user');
+      var originalPassword = readFilePromise(credentialsFile, 'user', done);
       var newPassword;
       jasstor.saveCredentialsAsync('user', 'password1', 'role')
         .then(() => {
-          newPassword = readFilePromise(credentialsFile, 'user');
+          newPassword = readFilePromise(credentialsFile, 'user', done);
           newPassword.should.be.ok;
           originalPassword.should.be.ok;
           newPassword.should.not.equal(originalPassword);
