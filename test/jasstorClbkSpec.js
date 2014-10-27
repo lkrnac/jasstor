@@ -27,8 +27,9 @@ var verifyNotOk = done => {
 };
 
 describe('jasstor', () => {
+  var jasstor = new Jasstor(credentialsFile);
+
   describe('when creadentials file doesn\'t exist', () => {
-    var jasstor = new Jasstor(credentialsFile);
     beforeEach(done => {
       //done callback is not passed directly
       //because we want to ignore possible error
@@ -55,7 +56,6 @@ describe('jasstor', () => {
   });
 
   describe('when creadentials file already exist', () => {
-    var jasstor = new Jasstor(credentialsFile);
     beforeEach(done => {
       fs.unlink(credentialsFile, () => {
         jasstor.saveCredentials('user', 'password', 'role', done);
