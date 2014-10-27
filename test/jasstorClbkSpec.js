@@ -26,6 +26,14 @@ var verifyNotOk = done => {
   };
 };
 
+var readPassword = (credentialsFile, done, callback) => {
+  fs.readFile(credentialsFile, (err, data) => {
+    checkError(err, done);
+    var jsonData = JSON.parse(data);
+    callback(jsonData.user.password);
+  });
+};
+
 describe('jasstor', () => {
   var jasstor = new Jasstor(credentialsFile);
 
@@ -63,15 +71,10 @@ describe('jasstor', () => {
     });
 
     it('should overwrite existing password', done => {
-      fs.readFile(credentialsFile, (err, data) => {
-        checkError(err, done);
-        var jsonData = JSON.parse(data);
-        var originalPassword = jsonData.user.password;
+      readPassword(credentialsFile, done, (originalPassword) => {
         jasstor.saveCredentials('user', 'password1', 'role', err => {
           checkError(err, done);
-          fs.readFile(credentialsFile, (err, data) => {
-            checkError(err, done);
-            var newPassword = JSON.parse(data).user.password;
+          readPassword(credentialsFile, done, (newPassword) => {
             newPassword.should.be.ok;
             originalPassword.should.be.ok;
             newPassword.should.not.equal(originalPassword);
