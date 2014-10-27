@@ -18,7 +18,7 @@ var verifyOk = (expectedRole, done) => {
   };
 };
 
-var verifyNotOk = (done) => {
+var verifyNotOk = done => {
   return (err, actualRole) => {
     checkError(err, done);
     should(actualRole).not.be.ok;
@@ -56,7 +56,7 @@ describe('jasstor', () => {
 
   describe('when creadentials file already exist', () => {
     var jasstor = new Jasstor(credentialsFile);
-    beforeEach((done) => {
+    beforeEach(done => {
       fs.unlink(credentialsFile, () => {
         jasstor.saveCredentials('user', 'password', 'role', done);
       });
