@@ -28,7 +28,6 @@
     "gulp-jshint": "^1.8.5",
     "gulp-mocha": "^1.1.1",
     "gulp-plumber": "^0.6.6",
-    "gulp-release-tasks": "0.0.3",
     "gulp-rename": "^1.2.0",
     "gulp-traceur": "^0.13.0",
     "jshint-stylish": "^1.0.0",

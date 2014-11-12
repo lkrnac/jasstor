@@ -10,7 +10,6 @@ var stylish = require('jshint-stylish');
 var plumber = require('gulp-plumber');
 var lazypipe = require('lazypipe');
 var rename = require('gulp-rename');
-require('gulp-release-tasks')(gulp);
 
 var errorOccured = false;
 var paths = {
