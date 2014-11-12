@@ -1,8 +1,8 @@
 {
   "name": "jasstor",
   "version": "0.0.2",
-  "main": "lib/jasstor.js",
-  "description": "JSON credentials storage and authentication",
+  "main": "dist/jasstor.js",
+  "description": "Stores credentials into JSON file and authenticate",
   "homepage": "https://github.com/lkrnac/jasstor",
   "bugs": "https://github.com/lkrnac/jasstor/issues",
   "author": {
@@ -16,9 +16,18 @@
   },
   "license": "MIT",
   "files": [
-    "lib"
+    "dist"
   ],
-  "keywords": [],
+  "keywords": [
+    "security",
+    "password",
+    "storage",
+    "bscrypt",
+    "authentication",
+    "authorization",
+    "file",
+    "json"
+  ],
   "devDependencies": {
     "bluebird": "^2.3.5",
     "grunt": "^0.4.5",
@@ -32,15 +41,19 @@
     "gulp-mocha": "^1.1.1",
     "gulp-plumber": "^0.6.6",
     "gulp-rename": "^1.2.0",
-    "gulp-traceur": "^0.13.0",
     "jshint-stylish": "^1.0.0",
     "lazypipe": "^0.2.2",
     "should": "^4.0.4"
   },
   "scripts": {
-    "test": "gulp --gulpfile gulpfile-es5.js && gulp testClbk && gulp"
+    "test": "gulp --gulpfile gulpfile-es5.js && gulp testClbk && gulp",
+    "release": "npm test && gulp release"
   },
   "dependencies": {
-    "bcrypt": "^0.8.0"
+    "bcrypt": "^0.8.0",
+    "gulp-traceur": "^0.13.0"
+  },
+  "engines": {
+    "node": ">=0.10"
   }
 }
