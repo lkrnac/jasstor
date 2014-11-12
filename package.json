@@ -1,6 +1,6 @@
 {
   "name": "jasstor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/jasstor.js",
   "description": "JSON credentials storage and authentication",
   "homepage": "https://github.com/lkrnac/jasstor",
@@ -21,9 +21,12 @@
   "keywords": [],
   "devDependencies": {
     "bluebird": "^2.3.5",
+    "grunt": "^0.4.5",
+    "grunt-release": "^0.7.0",
     "gulp": "^3.8.8",
     "gulp-coveralls": "^0.1.3",
     "gulp-debug": "^1.0.1",
+    "gulp-grunt": "^0.5.2",
     "gulp-istanbul": "^0.3.1",
     "gulp-jshint": "^1.8.5",
     "gulp-mocha": "^1.1.1",
