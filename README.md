@@ -4,6 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/lkrnac/jasstor/badge.png?branch=master)](https://coveralls.io/r/lkrnac/jasstor?branch=master)
 [![Dependency Status](https://david-dm.org/lkrnac/jasstor.svg?theme=shields.io)](https://david-dm.org/lkrnac/jasstor)
 [![devDependency Status](https://david-dm.org/lkrnac/jasstor/dev-status.svg?theme=shields.io)](https://david-dm.org/lkrnac/jasstor#info=devDependencies)
+[![license](http://img.shields.io/npm/l/jasstor.svg)](http://img.shields.io/npm/l/jasstor.svg)
 [![NPM](https://nodei.co/npm/jasstor.png)](https://nodei.co/npm/jasstor/)
 
 JSON credentials storage and authentication. Passwords are hashed with [bcrypt](https://github.com/ncb000gt/node.bcrypt.js).
