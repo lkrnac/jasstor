@@ -101,4 +101,5 @@ registerBuildTask('Promise', paths.scriptsPromise);
 registerBuildTask('Callback', paths.scriptsClbk);
 
 gulp.task('default', ['test', 'checkError', 'coveralls']);
-gulp.task('release', ['grunt-release']);
+gulp.task('build', ['test', 'checkError']);
+gulp.task('release', ['build', 'grunt-release']);
