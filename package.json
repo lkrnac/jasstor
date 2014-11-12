@@ -47,7 +47,8 @@
   },
   "scripts": {
     "test": "gulp --gulpfile gulpfile-es5.js && gulp testClbk && gulp",
-    "release": "gulp release"
+    "build": "gulp --gulpfile gulpfile-es5.js && gulp build",
+    "release": "gulp --gulpfile gulpfile-es5.js && gulp release"
   },
   "dependencies": {
     "bcrypt": "^0.8.0",
