@@ -7,7 +7,7 @@
 [![license](http://img.shields.io/npm/l/jasstor.svg)](http://img.shields.io/npm/l/jasstor.svg)
 [![NPM](https://nodei.co/npm/jasstor.png)](https://nodei.co/npm/jasstor/)
 
-Node.JS module. Simple file storage for credentials.
+Simple file storage for credentials (Node.js module).
 
 ## Features
  - Stores credentials (user, hashed password) and role name into JSON file
