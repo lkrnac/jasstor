@@ -1,6 +1,6 @@
 {
   "name": "jasstor",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/jasstor.js",
   "description": "Simple file storage for credentials",
   "homepage": "https://github.com/lkrnac/jasstor",
