@@ -10,6 +10,7 @@ var stylish = require('jshint-stylish');
 var plumber = require('gulp-plumber');
 var lazypipe = require('lazypipe');
 var rename = require('gulp-rename');
+require('gulp-grunt')(gulp);
 
 var errorOccured = false;
 var paths = {
@@ -99,5 +100,5 @@ gulp.task('watch', function () {
 registerBuildTask('Promise', paths.scriptsPromise);
 registerBuildTask('Callback', paths.scriptsClbk);
 
-
 gulp.task('default', ['test', 'checkError', 'coveralls']);
+gulp.task('release', ['grunt-release']);
