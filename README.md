@@ -7,7 +7,18 @@
 [![license](http://img.shields.io/npm/l/jasstor.svg)](http://img.shields.io/npm/l/jasstor.svg)
 [![NPM](https://nodei.co/npm/jasstor.png)](https://nodei.co/npm/jasstor/)
 
-JSON credentials storage and authentication. Passwords are hashed with [bcrypt](https://github.com/ncb000gt/node.bcrypt.js).
+Node.JS module. Simple file storage for credentials.
+
+## Features
+ - Stores credentials (user, hashed password) and role name into JSON file
+ - Handles verification of given username and password
+ - Reads role for given user
+ - Passwords are hashed with [bcrypt](https://github.com/ncb000gt/node.bcrypt.js)
+
+## Installation
+```Shell
+npm install jasstor
+```
 
 ## Getting Started
 ```javascript

@@ -2,7 +2,7 @@
   "name": "jasstor",
   "version": "0.0.2",
   "main": "dist/jasstor.js",
-  "description": "Stores credentials into JSON file and authenticate",
+  "description": "Simple file storage for credentials",
   "homepage": "https://github.com/lkrnac/jasstor",
   "bugs": "https://github.com/lkrnac/jasstor/issues",
   "author": {
