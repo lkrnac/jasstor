@@ -1,15 +1,9 @@
 'use strict';
 
 var gulp = require('gulp');
-var traceur = require('gulp-traceur');
-var mocha = require('gulp-mocha');
-var istanbul = require('gulp-istanbul');
-var coveralls = require('gulp-coveralls');
-var jshint = require('gulp-jshint');
-var stylish = require('jshint-stylish');
-var plumber = require('gulp-plumber');
 var lazypipe = require('lazypipe');
-var rename = require('gulp-rename');
+var plugins = require('gulp-load-plugins')();
+
 require('gulp-grunt')(gulp);
 
 var errorOccured = false;
@@ -22,7 +16,7 @@ var paths = {
 
 //Submit coverage report to overalls.io
 gulp.task('coveralls', ['test', 'checkError'], function () {
-  return gulp.src('./coverage/lcov.info').pipe(coveralls());
+  return gulp.src('./coverage/lcov.info').pipe(plugins.coveralls());
 });
 
 //This task is here to exit from process with error code
@@ -41,53 +35,53 @@ var errorHandler = function () {
 };
 
 var transpilePipe = lazypipe()
-  .pipe(plumber, {
+  .pipe(plugins.plumber, {
     errorHandler: errorHandler
   })
-  .pipe(jshint)
-  .pipe(jshint.reporter, stylish)
-  .pipe(jshint.reporter, 'fail')
-  .pipe(traceur);
+  .pipe(plugins.jshint)
+  .pipe(plugins.jshint.reporter, plugins.stylish)
+  .pipe(plugins.jshint.reporter, 'fail')
+  .pipe(plugins.traceur);
 
 var registerBuildTask = function (taskNameSuffix, paths) {
   //Compiles ES6 into ES5
   gulp.task('build' + taskNameSuffix, function () {
     return gulp.src(paths)
-      .pipe(plumber({
+      .pipe(plugins.plumber({
         errorHandler: errorHandler
       }))
       .pipe(transpilePipe())
-      .pipe(rename('jasstor.js'))
+      .pipe(plugins.rename('jasstor.js'))
       .pipe(gulp.dest('dist'));
   });
 };
 
 gulp.task('testClbk', ['buildCallback'], function () {
   gulp.src(paths.tests)
-    .pipe(plumber({
+    .pipe(plugins.plumber({
       errorHandler: errorHandler
     }))
     .pipe(transpilePipe())
     .pipe(gulp.dest('tmp'))
-    .pipe(mocha());
+    .pipe(plugins.mocha());
 });
 
 //Transpile to ES5 and runs mocha test
 gulp.task('test', ['buildPromise'], function (cb) {
   gulp.src([paths.dist])
-    .pipe(plumber({
+    .pipe(plugins.plumber({
       errorHandler: errorHandler
     }))
-    .pipe(istanbul())
+    .pipe(plugins.istanbul())
     .on('finish', function () {
       gulp.src(paths.tests)
-        .pipe(plumber({
+        .pipe(plugins.plumber({
           errorHandler: errorHandler
         }))
         .pipe(transpilePipe())
         .pipe(gulp.dest('tmp'))
-        .pipe(mocha())
-        .pipe(istanbul.writeReports())
+        .pipe(plugins.mocha())
+        .pipe(plugins.istanbul.writeReports())
         .on('end', cb);
     });
 });
