@@ -114,9 +114,9 @@ describe('jasstor tested with promises', () => {
     it('should not find role for non-existing user', done => {
       jasstor.getRoleAsync('user1')
         .then(role => {
-        should(role).be.undefined;
-        done();
-      }).catch(done);
+          should(role).be.undefined;
+          done();
+        }).catch(done);
     });
   });
 

@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var lazypipe = require('lazypipe');
+var stylish = require('jshint-stylish');
 var plugins = require('gulp-load-plugins')();
 
 require('gulp-grunt')(gulp);
@@ -44,7 +45,7 @@ var transpilePipe = lazypipe()
     errorHandler: errorHandler
   })
   .pipe(plugins.jshint)
-  .pipe(plugins.jshint.reporter, plugins.stylish)
+  .pipe(plugins.jshint.reporter, stylish)
   .pipe(plugins.jshint.reporter, 'fail')
   .pipe(plugins.traceur);
 
