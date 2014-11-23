@@ -14,14 +14,19 @@ var paths = {
   dist: './dist/jasstor.js'
 };
 
-//Submit coverage report to overalls.io
+/**
+ * Submit coverage report to overalls.io
+ */
 gulp.task('coveralls', ['test', 'checkError'], function () {
   return gulp.src('./coverage/lcov.info').pipe(plugins.coveralls());
 });
 
-//This task is here to exit from process with error code
-//This way drone.io (CI server) knows that process failed
-//It is needed because gulp-plumber forces 0 error code even when error occurs.
+/**
+ * This task is here to exit from process with error code.
+ * This way CI server knows that process failed.
+ * It is needed because gulp-plumber forces 0 error code
+ * even when error occurs.
+ */
 gulp.task('checkError', ['test'], function () {
   if (errorOccured) {
     console.log('Err, distor occured, exitting build process... ');
