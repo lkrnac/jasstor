@@ -1,3 +1,5 @@
+# NOT MAINTAINED
+
 # jasstor 
 
 [![Build Status](https://drone.io/github.com/lkrnac/jasstor/status.png)](https://drone.io/github.com/lkrnac/jasstor/latest)
